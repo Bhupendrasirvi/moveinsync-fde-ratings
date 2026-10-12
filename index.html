@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoveInSync Play Store Rating Turnaround Strategy | Case Study</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 30, 49, 0.8);
+            --primary: #3b82f6;
+            --primary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 1100px;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .author-badge {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
+        }
+
+        .slide-container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 40px 24px;
+            min-height: 720px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-tag {
+            color: var(--primary-accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 40%, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        p.lead {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 32px;
+            max-width: 800px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(96, 165, 250, 0.4);
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 28px 20px;
+        }
+
+        .metric-val {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .metric-val.red { color: var(--danger); }
+        .metric-val.green { color: var(--success); }
+        .metric-val.blue { color: var(--primary-accent); }
+
+        .metric-sub {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .badge.p0 { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+        .badge.p1 { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+        .badge.p2 { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4); }
+
+        .card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 0.92rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+
+        .code-snippet {
+            background: #060911;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            margin-top: 16px;
+            overflow-x: auto;
+        }
+
+        .nav-bar {
+            width: 100%;
+            max-width: 1100px;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #2563eb;
+        }
+
+        .btn.outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn.outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .slide-counter {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-text">MoveInSync | Forward Deployed Engineer Assignment</div>
+        <div class="author-badge">Candidate: Bhupendra Sirvi</div>
+    </div>
+
+    <div class="slide-container">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="slide-tag">Executive Presentation</div>
+            <h1>Play Store Rating Turnaround Strategy</h1>
+            <p class="lead">An AI-first empirical diagnosis, release regression root-cause analysis, prioritized engineering roadmap, and reusable monitoring engine for MoveInSync (com.moveinsync.ets).</p>
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Empirical Data</h3>
+                    <p>Live scraped Play Store telemetry from 114k+ ratings and chronological review velocity analysis.</p>
+                </div>
+                <div class="card">
+                    <h3>Root Cause Isolation</h3>
+                    <p>Pinpointed release regressions in v12.19.0: unskippable rating modals & false-positive lockouts.</p>
+                </div>
+                <div class="card">
+                    <h3>Day-1 Actionable</h3>
+                    <p>Concrete engineering specifications ready to ship tomorrow morning to reverse negative sentiment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: The Rating Crisis -->
+        <div class="slide">
+            <div class="slide-tag">The Empirical Reality</div>
+            <h2>The Lifetime Rating Illusion vs Recent Drop</h2>
+            <p class="lead">While historical store metrics look healthy at 4.32★, recent versions show a severe drop in commuter sentiment.</p>
+            <div class="grid-3">
+                <div class="card metric-card">
+                    <div class="metric-val blue">4.32★</div>
+                    <div class="metric-sub">Lifetime Store Rating (114,879 ratings)</div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-val red">3.73★</div>
+                    <div class="metric-sub">Recent Review Velocity (Last 150-300 reviews)</div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-val red">30.7%</div>
+                    <div class="metric-sub">Critical Rate (1★ or 2★ Reviews)</div>
+                </div>
+            </div>
+            <div class="code-snippet">
+$ python moveinsync_ratings_pulse.py --count 150<br>
+Critical Rate: 30.7% of recent reviews are 1 or 2 stars! (1-Star Alone: 28.7% - a 2.4x historical spike)
+            </div>
+        </div>
+
+        <!-- Slide 3: Journey-Phase Analysis -->
+        <div class="slide">
+            <div class="slide-tag">Journey Touchpoint Analysis</div>
+            <h2>Where the Commuter Experience Breaks Down</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>1. App Stability & Verification</h3>
+                    <p>False-positive "Not downloaded from Play Store" lockouts and auto-update SQLite migration crash loops prevent users from opening the app.</p>
+                </div>
+                <div class="card">
+                    <h3>2. Boarding Friction</h3>
+                    <p>Mandatory "Seat Belt Safety First" popups gate OTP visibility while riders stand beside cabs in a rush.</p>
+                </div>
+                <div class="card">
+                    <h3>3. Live Tracking & ETAs</h3>
+                    <p>GPS telemetry latency and unrealistic ETAs that deviate 3x from real Google Maps traffic.</p>
+                </div>
+                <div class="card">
+                    <h3>4. Catalytic Anti-Pattern</h3>
+                    <p>Unskippable, modal ride rating dialogs drive frustrated riders directly to the Google Play Store to leave 1-star revenge ratings.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Engineering Roadmap -->
+        <div class="slide">
+            <div class="slide-tag">Actionable Execution</div>
+            <h2>Prioritized Action Plan: What to Do First</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <span class="badge p0">P0: Day 1 Hotfix</span>
+                    <h3>Immediate Bleeding Stop</h3>
+                    <p>• Add "Skip" button to in-app rating modal.<br>• Remove seatbelt gate before OTP display.<br>• Patch installer package check.<br>• Roll out Google In-App Review API for happy riders.</p>
+                </div>
+                <div class="card">
+                    <span class="badge p1">P1: Sprint 1</span>
+                    <h3>Mobile Stability & Sync</h3>
+                    <p>• Room DB migration safe fallbacks.<br>• Proactive background JWT session refresh.<br>• Restore masked co-passenger stop sequencing.</p>
+                </div>
+                <div class="card">
+                    <span class="badge p2">P2: Sprint 2</span>
+                    <h3>Algorithmic & Closed Loop</h3>
+                    <p>• Real-time traffic calibrated ETAs.<br>• Hard detour caps (Direct * 1.4 + 15m).<br>• Internal feedback interceptor routing to Transport Desk.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: The Reusable Telemetry Engine -->
+        <div class="slide">
+            <div class="slide-tag">Forward Deployed Capability</div>
+            <h2>"How Are Our Play Store Ratings?" - Solved.</h2>
+            <p class="lead">Built a zero-bloat, recurring monitoring engine (<code>moveinsync_ratings_pulse.py</code>) that automates tracking for executives and product teams.</p>
+            <div class="code-snippet">
+# Run on-demand diagnostic across 300 latest reviews<br>
+python moveinsync_ratings_pulse.py --count 300<br><br>
+# Or emit raw JSON for Slack webhook alerts & CI/CD release gating<br>
+python moveinsync_ratings_pulse.py --count 100 --json
+            </div>
+            <div class="grid-2" style="margin-top: 16px;">
+                <div class="card">
+                    <h3>Automated Regression Detection</h3>
+                    <p>Flags if any new build spikes above 5% crash complaints within 48 hours of rollout.</p>
+                </div>
+                <div class="card">
+                    <h3>Lightweight & Dependable</h3>
+                    <p>Zero complex microservices. Pure Python 3.11 with stdlib text clustering.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Expected Impact -->
+        <div class="slide">
+            <div class="slide-tag">Target Outcomes</div>
+            <h2>Projected Recovery Scorecard</h2>
+            <div class="grid-3">
+                <div class="card metric-card">
+                    <div class="metric-val green">&lt; 15%</div>
+                    <div class="metric-sub">1-Star Ratio within 72 Hours (From 28.7%)</div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-val green">4.35★</div>
+                    <div class="metric-sub">30-Day Recent Rating Velocity Target</div>
+                </div>
+                <div class="card metric-card">
+                    <div class="metric-val green">4.50★</div>
+                    <div class="metric-sub">90-Day Lifetime Goal Across App Stores</div>
+                </div>
+            </div>
+            <p class="lead" style="margin: 24px auto 0; text-align: center;">Ready for deployment with Product and Engineering teams immediately.</p>
+        </div>
+
+    </div>
+
+    <div class="nav-bar">
+        <button class="btn outline" id="prevBtn" onclick="changeSlide(-1)">Previous</button>
+        <div class="slide-counter" id="counter">Slide 1 of 6</div>
+        <button class="btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const counter = document.getElementById('counter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateSlide() {
+            slides.forEach((s, idx) => {
+                s.classList.toggle('active', idx === currentSlide);
+            });
+            counter.innerText = `Slide ${currentSlide + 1} of ${slides.length}`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.innerText = currentSlide === slides.length - 1 ? "Finish" : "Next";
+        }
+
+        function changeSlide(dir) {
+            currentSlide = Math.max(0, Math.min(slides.length - 1, currentSlide + dir));
+            updateSlide();
+        }
+
+        updateSlide();
+    </script>
+</body>
+</html>
